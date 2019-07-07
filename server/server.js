@@ -7,13 +7,16 @@ const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
 
 // parse application/x-www-form-urlencoded
+//es un middleware
 app.use(bodyParser.urlencoded({ extended: false }));
 
 // parse application/json
+//es un middleware
 app.use(bodyParser.json());
 
 //toma las funciones de usuario que tiene get put post
-app.use(require('./routes/usuario'));
+//es un middleware
+app.use(require('./routes/index'));
 
 
 

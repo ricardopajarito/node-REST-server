@@ -4,8 +4,18 @@ const bcrypt = require('bcrypt');
 const _ = require('underscore');
 //se necesita el modelo para grabar en la db
 const Usuario = require('../models/usuario');
+//mandamos a llamar a verificaToken
+const { verificaToken, verificaAdmin_Role } = require('../middlewares/autenticacion');
 
-app.get('/usuario', function(req, res) {
+app.get('/usuario', verificaToken, function(req, res) {
+
+    //este es el ejemplo del middleware al validar el token
+    // return res.json({
+    //     usuario: req.usuario,
+    //     nombre: req.usuario.nombre,
+    //     email: req.usuario.email
+    // });
+
     //res.json('getUsuario LOCAL');
     let desde = req.query.desde || 0;
     desde = Number(desde);
@@ -39,7 +49,7 @@ app.get('/usuario', function(req, res) {
         });
 });
 
-app.post('/usuario', function(req, res) {
+app.post('/usuario', [verificaToken, verificaAdmin_Role], function(req, res) {
     let body = req.body;
 
     let usuario = new Usuario({
@@ -83,7 +93,7 @@ app.post('/usuario', function(req, res) {
 
 
 //put como actualizacion del registro
-app.put('/usuario/:id', function(req, res) {
+app.put('/usuario/:id', [verificaToken, verificaAdmin_Role], function(req, res) {
     let id = req.params.id;
     //let body = req.body;
 
@@ -116,7 +126,7 @@ app.put('/usuario/:id', function(req, res) {
 
 });
 
-app.delete('/usuario/:id', function(req, res) {
+app.delete('/usuario/:id', [verificaToken, verificaAdmin_Role], function(req, res) {
     //res.json('delete Usuario');
     let id = req.params.id;
     //eliminacion fisica
