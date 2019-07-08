@@ -5,7 +5,7 @@ const app = express();
 const bodyParser = require('body-parser');
 
 const mongoose = require('mongoose');
-
+const path = require('path');
 // parse application/x-www-form-urlencoded
 //es un middleware
 app.use(bodyParser.urlencoded({ extended: false }));
@@ -13,6 +13,10 @@ app.use(bodyParser.urlencoded({ extended: false }));
 // parse application/json
 //es un middleware
 app.use(bodyParser.json());
+
+//habilitar el public
+app.use(express.static(path.resolve(__dirname, '../public')));
+
 
 //toma las funciones de usuario que tiene get put post
 //es un middleware
